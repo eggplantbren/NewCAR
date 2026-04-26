@@ -5,10 +5,26 @@ from scipy.stats import norm
 import celerite2
 from celerite2 import terms
 import matplotlib.pyplot as plt
+import sys
+import os
+
+# Directory containing mymodel.py
+_here = os.path.dirname(os.path.abspath(__file__))
+
+# Parent directory: NewCAR/
+_parent = os.path.abspath(os.path.join(_here, ".."))
+
+# Add parent to sys.path so we can import shared.py
+if _parent not in sys.path:
+    sys.path.insert(0, _parent)
+
+import shared
+num_params = shared.num_params
+prior_transform = shared.prior_transform
+log_likelihood = shared.log_likelihood
+
 
 rng.seed(1234)
-
-num_params = 4
 
 days = 365*100
 window = np.arange(15000, 15000+20*365)
@@ -41,42 +57,6 @@ def generate_light_curve(params):
     data = np.column_stack((t_obs, y_obs, err_obs))
 
     return data
-
-
-
-def prior_transform(us):
-    params = us.copy()
-
-    # (mu, log10_sigma, log10_beta, log10_jitter)
-    params[0] = 20.0 + 1.5*norm.ppf(us[0])
-    params[1] = -0.5 + 0.5*norm.ppf(us[1])
-    params[2] = -2.0 + 0.6*norm.ppf(us[2])
-    params[3] = -2.0 + 0.5*norm.ppf(us[3])
-
-    return params
-
-
-def log_likelihood(params, data):
-
-    logl = 0.0
-
-    mu = params[0]
-    sigma, beta, jitter = 10.0**params[1:4]
-    tau = 2*(sigma/beta)**2
-
-    #mu = np.mean(data[:,1])
-
-    try:
-        term = terms.RealTerm(a=sigma**2, c=1.0/tau)
-        kernel = term
-        gp = celerite2.GaussianProcess(kernel, mean=mu)
-        gp.compute(data[:,0], yerr=np.sqrt(data[:,2]**2 + jitter**2))
-        logl = gp.log_likelihood(data[:,1])
-    except Exception:
-        logl = -1.0E300
-
-    return logl
-
 
 def generate_data(params):
     """

@@ -4,7 +4,7 @@
 #include <pybind11/numpy.h>
 
 pybind11::scoped_interpreter MyModel::guard;
-pybind11::module_ MyModel::my_module = pybind11::module_::import("dnest4_model");
+pybind11::module_ MyModel::my_module = pybind11::module_::import("mymodel");
 
 int MyModel::size = 1;
 
