@@ -4,3 +4,6 @@
 [submodule "entropy/PostEnt2021"]
 	path = entropy/PostEnt2021
 	url = https://github.com/eggplantbren/PostEnt2021
+[submodule "entropy/Tools"]
+	path = entropy/Tools
+	url = https://github.com/eggplantbren/Tools
