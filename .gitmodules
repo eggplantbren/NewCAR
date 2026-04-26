@@ -1,0 +1,3 @@
+[submodule "fitting/pybind11"]
+	path = fitting/pybind11
+	url = https://github.com/pybind/pybind11
