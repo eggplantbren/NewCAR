@@ -1,3 +1,6 @@
 [submodule "fitting/pybind11"]
 	path = fitting/pybind11
 	url = https://github.com/pybind/pybind11
+[submodule "entropy/PostEnt2021"]
+	path = entropy/PostEnt2021
+	url = https://github.com/eggplantbren/PostEnt2021
