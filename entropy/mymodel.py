@@ -23,46 +23,13 @@ num_params = shared.num_params
 prior_transform = shared.prior_transform
 log_likelihood = shared.log_likelihood
 
-
 rng.seed(1234)
-
-days = 365*100
-window = np.arange(15000, 15000+20*365)
-err = 0.015
-n = 250
-t = np.arange(days)
-choice = rng.choice(window, size=n, replace=False)
-choice = np.sort(choice)
-t_obs = t[choice]
-
-def generate_light_curve(params):
-    mu, log10_sigma, log10_beta, log10_jitter = params
-    sigma = 10.0**log10_sigma
-    beta = 10.0**log10_beta
-    jitter = 10.0**log10_jitter
-    tau = 2*(sigma/beta)**2
-
-    alpha = np.exp(-1.0/tau)
-    eps = sigma*np.sqrt(1.0 - alpha**2)
-
-    y = np.empty(days)
-    y[0] = mu + sigma*rng.randn()
-    for i in range(1, days):
-        y[i] = mu + alpha*(y[i-1] - mu) + eps*rng.randn()
-
-    y_obs = y[choice] + np.sqrt(jitter**2 + err**2)*rng.randn(n)
-    err_obs = err*np.ones(n)
-
-    # Save the data
-    data = np.column_stack((t_obs, y_obs, err_obs))
-
-    return data
 
 def generate_data(params):
     """
     Generate a dataset.
     """
-    return generate_light_curve(params)
+    return shared.generate_light_curve(params)
 
 def distance(params1, params2):
     """
