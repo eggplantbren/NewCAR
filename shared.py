@@ -65,14 +65,12 @@ def log_likelihood(params, data):
     return logl
 
 
+means = np.array([20.0, -0.5, -2.0, -2.0])
+sds = np.array([1.5, 0.5, 0.6, 0.5])
 def prior_transform(us):
     params = us.copy()
 
     # (mu, log10_sigma, log10_beta, log10_jitter)
-    params[0] = 20.0 + 1.5*norm.ppf(us[0])
-    params[1] = -0.5 + 0.5*norm.ppf(us[1])
-    params[2] = -2.0 + 0.6*norm.ppf(us[2])
-    params[3] = -2.0 + 0.5*norm.ppf(us[3])
+    return means + sds*norm.ppf(us)
 
-    return params
 
