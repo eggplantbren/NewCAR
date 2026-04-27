@@ -64,10 +64,16 @@ def log_likelihood(params, data):
 
     return logl
 
+lower = np.array([15.0, -3.0, -5.0, -3.0])
+width = np.array([10.0,  4.0,  5.0,  2.0])
+def prior_transform_flat(us):
+    params = us.copy()
+    return lower + width*us
+
 
 means = np.array([20.0, -0.5, -2.0, -2.0])
 sds = np.array([1.5, 0.5, 0.6, 0.5])
-def prior_transform(us):
+def prior_transform_informative(us):
     params = us.copy()
 
     # (mu, log10_sigma, log10_beta, log10_jitter)
@@ -77,3 +83,5 @@ def prior_transform(us):
     return means + 0.55*sds*np.log(us/(1.0 - us))
 
 
+# Indicate selection here
+prior_transform = prior_transform_informative
