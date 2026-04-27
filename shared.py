@@ -53,7 +53,7 @@ def log_likelihood(params, data):
     sigma, beta, jitter = 10.0**params[1:4]
     tau = 2*(sigma/beta)**2
 
-    mu = np.sum(data[:,1]/data[:,2]**2)/np.sum(1.0/data[:,2]**2)
+    #mu = np.sum(data[:,1]/data[:,2]**2)/np.sum(1.0/data[:,2]**2)
 
     try:
         term = terms.RealTerm(a=sigma**2, c=1.0/tau)
