@@ -23,8 +23,6 @@ num_params = shared.num_params
 prior_transform = shared.prior_transform
 log_likelihood = shared.log_likelihood
 
-rng.seed(1234)
-
 def generate_data(params):
     """
     Generate a dataset.
