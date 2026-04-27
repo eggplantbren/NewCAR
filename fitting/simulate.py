@@ -29,7 +29,9 @@ plt.rcParams.update({
 
 if __name__ == "__main__":
     rng.seed(123)
-    [data, y] = generate_light_curve(prior_transform(rng.rand(num_params)),
+    params = prior_transform(rng.rand(num_params))
+    print(f"True values = {params}.")
+    [data, y] = generate_light_curve(params,
                                      return_y=True)
 
     np.savetxt("data.txt", data)
