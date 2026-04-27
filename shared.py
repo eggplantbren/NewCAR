@@ -71,6 +71,9 @@ def prior_transform(us):
     params = us.copy()
 
     # (mu, log10_sigma, log10_beta, log10_jitter)
-    return means + sds*norm.ppf(us)
+    #return means + sds*norm.ppf(us)
+
+    # Faster, logistic approximation
+    return means + 0.55*sds*np.log(us/(1.0 - us))
 
 
