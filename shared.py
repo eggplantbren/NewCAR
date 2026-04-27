@@ -13,7 +13,9 @@ window = np.arange(15000, 15000+20*365)
 err = 0.015
 n = 250
 t = np.arange(days)
-choice = rng.choice(window, size=n, replace=False)
+
+temp_rng = np.random.default_rng(12345)
+choice = temp_rng.choice(window, size=n, replace=False)
 choice = np.sort(choice)
 t_obs = t[choice]
 
@@ -51,7 +53,7 @@ def log_likelihood(params, data):
     sigma, beta, jitter = 10.0**params[1:4]
     tau = 2*(sigma/beta)**2
 
-    #mu = np.sum(data[:,1]/data[:,2]**2)/np.sum(1.0/data[:,2]**2)
+    mu = np.sum(data[:,1]/data[:,2]**2)/np.sum(1.0/data[:,2]**2)
 
     try:
         term = terms.RealTerm(a=sigma**2, c=1.0/tau)
@@ -84,4 +86,4 @@ def prior_transform_informative(us):
 
 
 # Indicate selection here
-prior_transform = prior_transform_informative
+prior_transform = prior_transform_flat
