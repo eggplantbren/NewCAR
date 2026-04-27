@@ -86,4 +86,4 @@ def prior_transform_informative(us):
 
 
 # Indicate selection here
-prior_transform = prior_transform_flat
+prior_transform = prior_transform_informative
