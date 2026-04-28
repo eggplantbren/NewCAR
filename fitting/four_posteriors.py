@@ -4,32 +4,32 @@ import dnest4
 import config
 import os
 
-def run_cpp():
-    os.system("./main")
+def run_cpp(seed):
+    os.system(f"./main -s {seed}")
     dnest4.postprocess(plot=False, rng_seed=123)
 
 # Run 1
 config.fixed_mean = False
 config.prior = "informative"
-run_cpp()
+run_cpp(seed=1)
 os.system("mv posterior_sample.txt posterior_sample1.txt")
 
 # Run 2
 config.fixed_mean = True
 config.prior = "informative"
-run_cpp()
+run_cpp(seed=2)
 os.system("mv posterior_sample.txt posterior_sample2.txt")
 
 # Run 3
 config.fixed_mean = False
 config.prior = "flat"
-run_cpp()
+run_cpp(seed=3)
 os.system("mv posterior_sample.txt posterior_sample3.txt")
 
 # Run 4
 config.fixed_mean = True
 config.prior = "flat"
-run_cpp()
+run_cpp(seed=4)
 os.system("mv posterior_sample.txt posterior_sample4.txt")
 
 #plt.rcParams.update({
