@@ -20,11 +20,16 @@ data = np.loadtxt("data.txt")
 import shared
 from shared import *
 from shared import log_likelihood as _log_likelihood
+import config
 
-prior_transform = prior_transform_informative
+prior_transform = None
+if config.prior == "informative":
+    prior_transform = prior_transform_informative
+elif config.prior == "flat":
+    prior_transform = prior_transform_flat
 
 def log_likelihood(params):
-    return _log_likelihood(params, data, fixed_mean=False)
+    return _log_likelihood(params, data, fixed_mean=config.fixed_mean)
 
 def both(us):
     return log_likelihood(prior_transform(us))
