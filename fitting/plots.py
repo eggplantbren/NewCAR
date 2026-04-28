@@ -59,7 +59,7 @@ plt.hist(log10_tau, 40, density=True, alpha=0.3,
          label="Free $\\mu$")
 plt.title("Flat Priors")
 plt.xlim([1.0, 10.0])
-plt.axvline(3.60749121, color="k", alpha=0.6, label="True value")
+plt.axvline(3.7787833316317925, color="k", alpha=0.6, label="True value")
 plt.ylabel("Probability Density")
 
 posterior_sample = np.loadtxt("results/posterior_sample_flat_fixed.txt")
@@ -103,7 +103,7 @@ plt.title("Informative Priors")
 
 plt.xlabel("$\\log_{10}(\\tau/{\\rm days})$")
 plt.xlim([1.0, 10.0])
-plt.axvline(3.60749121, color="k", alpha=0.6, label="True value")
+plt.axvline(3.7787833316317925, color="k", alpha=0.6, label="True value")
 plt.legend()
 
 plt.savefig("four_posteriors.pdf")
