@@ -18,16 +18,13 @@ if _parent not in sys.path:
 
 data = np.loadtxt("data.txt")
 import shared
-num_params = shared.num_params
-prior_transform = shared.prior_transform
+from shared import *
+from shared import log_likelihood as _log_likelihood
 
-fix_mu = False
-mean_mag = np.sum(data[:,1]/data[:,2]**2) \
-            / np.sum(1.0/data[:,2]**2)
+prior_transform = prior_transform_informative
 
 def log_likelihood(params):
-    return shared.log_likelihood(params, data)
-
+    return _log_likelihood(params, data, fixed_mean=False)
 
 def both(us):
     return log_likelihood(prior_transform(us))

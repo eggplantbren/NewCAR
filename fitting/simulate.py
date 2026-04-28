@@ -18,9 +18,7 @@ if _parent not in sys.path:
     sys.path.insert(0, _parent)
 
 import shared
-num_params = shared.num_params
-generate_light_curve = shared.generate_light_curve
-prior_transform = shared.prior_transform
+from shared import *
 
 plt.rcParams.update({
     "text.usetex": True,
@@ -29,7 +27,7 @@ plt.rcParams.update({
 
 if __name__ == "__main__":
     rng.seed(123)
-    params = prior_transform(rng.rand(num_params))
+    params = prior_transform_informative(rng.rand(num_params))
     print(f"True values = {params}.")
     [data, y] = generate_light_curve(params,
                                      return_y=True)
