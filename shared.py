@@ -45,7 +45,7 @@ def generate_light_curve(params, return_y=False):
     return data
 
 
-def log_likelihood(params, data):
+def log_likelihood(params, data, fixed_mean=False):
 
     logl = 0.0
 
@@ -53,7 +53,8 @@ def log_likelihood(params, data):
     sigma, beta, jitter = 10.0**params[1:4]
     tau = 2*(sigma/beta)**2
 
-    #mu = np.sum(data[:,1]/data[:,2]**2)/np.sum(1.0/data[:,2]**2)
+    if fixed_mean:
+        mu = np.sum(data[:,1]/data[:,2]**2)/np.sum(1.0/data[:,2]**2)
 
     try:
         term = terms.RealTerm(a=sigma**2, c=1.0/tau)
@@ -83,7 +84,3 @@ def prior_transform_informative(us):
 
     # Faster, logistic approximation
     return means + 0.55*sds*np.log(us/(1.0 - us))
-
-
-# Indicate selection here
-prior_transform = prior_transform_informative

@@ -18,10 +18,17 @@ _parent = os.path.abspath(os.path.join(_here, ".."))
 if _parent not in sys.path:
     sys.path.insert(0, _parent)
 
+# Indicate selections here
 import shared
-num_params = shared.num_params
-prior_transform = shared.prior_transform
-log_likelihood = shared.log_likelihood
+from shared import *
+
+# Wrap log_likelihood
+from shared import log_likelihood as _log_likelihood
+def log_likelihood(params, data):
+    return _log_likelihood(params, data, fixed_mean=False)
+
+# Override prior_transform
+prior_transform = prior_transform_informative
 
 def generate_data(params):
     """
