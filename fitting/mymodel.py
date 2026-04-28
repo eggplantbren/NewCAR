@@ -20,16 +20,24 @@ data = np.loadtxt("data.txt")
 import shared
 from shared import *
 from shared import log_likelihood as _log_likelihood
-import config
+
+
+import json
+
+with open("config.json") as f:
+    cfg = json.load(f)
+
+fixed_mean = cfg["fixed_mean"]
+prior = cfg["prior"]
 
 prior_transform = None
-if config.prior == "informative":
+if prior == "informative":
     prior_transform = prior_transform_informative
-elif config.prior == "flat":
+elif prior == "flat":
     prior_transform = prior_transform_flat
 
 def log_likelihood(params):
-    return _log_likelihood(params, data, fixed_mean=config.fixed_mean)
+    return _log_likelihood(params, data, fixed_mean=fixed_mean)
 
 def both(us):
     return log_likelihood(prior_transform(us))
