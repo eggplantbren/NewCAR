@@ -28,7 +28,8 @@ plt.rcParams.update({
 if __name__ == "__main__":
     rng.seed(123)
     params = prior_transform_informative(rng.rand(num_params))
-    print(f"True values = {params}.")
+    log10_tau = np.log10(2.0) + 2.0*(params[1] - params[2])
+    print(f"True values = {params}. log10_tau = {log10_tau}.")
     [data, y] = generate_light_curve(params,
                                      return_y=True)
 
