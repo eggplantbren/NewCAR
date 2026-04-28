@@ -1,5 +1,5 @@
 import dnest4.classic as dn4
-dn4.postprocess()
+dn4.postprocess(rng_seed=123)
 
 import corner
 import matplotlib.pyplot as plt
