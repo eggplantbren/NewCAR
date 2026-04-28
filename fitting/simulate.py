@@ -40,6 +40,7 @@ if __name__ == "__main__":
     plt.subplot(2, 1, 1)
     plt.errorbar(data[:,0], data[:,1], yerr=data[:,2],
                   fmt=".", label="Observations")
+    plt.ylabel("Magnitude")
 
     plt.subplot(2, 1, 2)
     plt.plot(shared.t, y, "r-", alpha=0.5, label="Underlying curve")
@@ -48,7 +49,7 @@ if __name__ == "__main__":
 
     plt.legend()
     plt.xlabel("Time $t$ (days)")
-    plt.ylabel("Signal $y(t)$ (magnitudes)")
+    plt.ylabel("Magnitude")
 
     # Save and display the plot
     plt.savefig("simulation.pdf", bbox_inches="tight")
