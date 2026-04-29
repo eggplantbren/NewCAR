@@ -13,14 +13,14 @@ ndim = 4
 def cornerplot(posterior_sample):
     mu = posterior_sample[:,0]
     log10_sigma = posterior_sample[:,1]
-    log10_beta = posterior_sample[:,2]
+    log10_eta = posterior_sample[:,2]
     log10_jitter = posterior_sample[:,3]
-    log10_tau = (log10_sigma - log10_beta + 0.5*np.log10(2))*2
+    log10_tau = (log10_sigma - log10_eta + 0.5*np.log10(2))*2
 
-    posterior_sample = np.column_stack((mu, log10_beta, log10_tau, log10_jitter))
+    posterior_sample = np.column_stack((mu, log10_eta, log10_tau, log10_jitter))
 
     figure = corner.corner(posterior_sample,
-        labels=["$\\mu$", "$\\log_{10}(\\beta)$",
+        labels=["$\\mu$", "$\\log_{10}(\\eta)$",
                 "$\\log_{10}(\\tau)$",
                 "$\\log_{10}({\\rm jitter})$"],
                 plot_contours=False,
@@ -51,9 +51,9 @@ posterior_sample = np.loadtxt("results/posterior_sample_flat_free.txt")
 
 mu = posterior_sample[:,0]
 log10_sigma = posterior_sample[:,1]
-log10_beta = posterior_sample[:,2]
+log10_eta = posterior_sample[:,2]
 log10_jitter = posterior_sample[:,3]
-log10_tau = (log10_sigma - log10_beta + 0.5*np.log10(2))*2
+log10_tau = (log10_sigma - log10_eta + 0.5*np.log10(2))*2
 
 plt.hist(log10_tau, 40, density=True, alpha=0.3,
          label="Free $\\mu$")
@@ -66,9 +66,9 @@ posterior_sample = np.loadtxt("results/posterior_sample_flat_fixed.txt")
 
 mu = posterior_sample[:,0]
 log10_sigma = posterior_sample[:,1]
-log10_beta = posterior_sample[:,2]
+log10_eta = posterior_sample[:,2]
 log10_jitter = posterior_sample[:,3]
-log10_tau = (log10_sigma - log10_beta + 0.5*np.log10(2))*2
+log10_tau = (log10_sigma - log10_eta + 0.5*np.log10(2))*2
 
 plt.hist(log10_tau, 40, density=True, alpha=0.3,
          label="Fixed $\\mu$")
@@ -81,9 +81,9 @@ posterior_sample = np.loadtxt("results/posterior_sample_informative_free.txt")
 
 mu = posterior_sample[:,0]
 log10_sigma = posterior_sample[:,1]
-log10_beta = posterior_sample[:,2]
+log10_eta = posterior_sample[:,2]
 log10_jitter = posterior_sample[:,3]
-log10_tau = (log10_sigma - log10_beta + 0.5*np.log10(2))*2
+log10_tau = (log10_sigma - log10_eta + 0.5*np.log10(2))*2
 
 plt.hist(log10_tau, 40, density=True, alpha=0.3,
          label="Free $\\mu$")
@@ -94,9 +94,9 @@ posterior_sample = np.loadtxt("results/posterior_sample_informative_fixed.txt")
 
 mu = posterior_sample[:,0]
 log10_sigma = posterior_sample[:,1]
-log10_beta = posterior_sample[:,2]
+log10_eta = posterior_sample[:,2]
 log10_jitter = posterior_sample[:,3]
-log10_tau = (log10_sigma - log10_beta + 0.5*np.log10(2))*2
+log10_tau = (log10_sigma - log10_eta + 0.5*np.log10(2))*2
 
 plt.hist(log10_tau, 40, density=True, alpha=0.3,
          label="Fixed $\\mu$")

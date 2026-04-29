@@ -20,11 +20,11 @@ choice = np.sort(choice)
 t_obs = t[choice]
 
 def generate_light_curve(params, return_y=False):
-    mu, log10_sigma, log10_beta, log10_jitter = params
+    mu, log10_sigma, log10_eta, log10_jitter = params
     sigma = 10.0**log10_sigma
-    beta = 10.0**log10_beta
+    eta = 10.0**log10_eta
     jitter = 10.0**log10_jitter
-    tau = 2*(sigma/beta)**2
+    tau = 2*(sigma/eta)**2
 
     alpha = np.exp(-1.0/tau)
     eps = sigma*np.sqrt(1.0 - alpha**2)
@@ -50,8 +50,8 @@ def log_likelihood(params, data, fixed_mean=False):
     logl = 0.0
 
     mu = params[0]
-    sigma, beta, jitter = 10.0**params[1:4]
-    tau = 2*(sigma/beta)**2
+    sigma, eta, jitter = 10.0**params[1:4]
+    tau = 2*(sigma/eta)**2
 
     if fixed_mean:
         mu = np.sum(data[:,1]/data[:,2]**2)/np.sum(1.0/data[:,2]**2)
@@ -79,7 +79,7 @@ sds = np.array([1.5, 0.5, 0.6, 0.5])
 def prior_transform_informative(us):
     params = us.copy()
 
-    # (mu, log10_sigma, log10_beta, log10_jitter)
+    # (mu, log10_sigma, log10_eta, log10_jitter)
     #return means + sds*norm.ppf(us)
 
     # Faster, logistic approximation
