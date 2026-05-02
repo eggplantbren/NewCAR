@@ -23,7 +23,7 @@ def generate_light_curve(params, return_y=False):
     mu, log10_sigma, log10_eta, log10_jitter = params
     sigma = 10.0**log10_sigma
     eta = 10.0**log10_eta
-    jitter = 10.0**log10_jitter
+    jitter = 1E-3 #10.0**log10_jitter
     tau = 2*(sigma/eta)**2
 
     alpha = np.exp(-1.0/tau)

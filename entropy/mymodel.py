@@ -36,12 +36,40 @@ def generate_data(params):
     """
     return shared.generate_light_curve(params)
 
-def distance(params1, params2):
+
+def load_options(path="POSTENT_OPTIONS"):
+    opts = {}
+    with open(path) as f:
+        for line in f:
+            line = line.split("#", 1)[0].strip()   # remove comments
+            if not line:
+                continue
+            if "=" not in line:
+                continue
+            key, val = map(str.strip, line.split("=", 1))
+            try:
+                # try float first (handles 1.0E-4)
+                num = float(val)
+                # but if it's actually an integer, convert to int
+                if num.is_integer():
+                    num = int(num)
+                opts[key] = num
+            except ValueError:
+                # fallback: store raw string
+                opts[key] = val
+    return opts
+
+opts = load_options()
+tolerance = opts["tolerance"]
+
+def log_kernel(params1, params2):
     """
     Distance to another particle in parameter space.
     """
     log10_tau1 = np.log10(2.0) + 2.0*(params1[1] - params1[2])
     log10_tau2 = np.log10(2.0) + 2.0*(params2[1] - params2[2])
 
-    return np.abs(log10_tau1 - log10_tau2)
+    logp = -0.5*((log10_tau1 - log10_tau2)/tolerance)**2 \
+            - 0.5*np.log(2.0*np.pi*tolerance**2)
+    return logp
 

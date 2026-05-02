@@ -1,24 +1,51 @@
 #include <iostream>
+#include "DNest4/code/DNest4.h"
+#include "MyModel.h"
 #include "Examples/PythonModel.h"
-#include "NSRun.h"
+#include "Options.h"
+#include <iostream>
+#include <iomanip>
+#include <fstream>
 
-using namespace PostEnt2021;
-using namespace PostEnt2021::PythonModel;
+using namespace PostEnt2026;
+using Params = Examples::PythonModelParams;
+using Data =   Examples::PythonModelData;
 
 int main(int argc, char** argv)
 {
-    if (argc < 2)
+    // Separate RNG for generating (truth, data) pairs.
+    DNest4::RNG rng(time(0));
+
+    std::system("rm logzs.txt logzs2.txt");
+    std::fstream fout("truths.txt", std::ios::out);
+    fout << std::setprecision(12);
+
+    for(int i=0; i<PostEnt2026::Options::num_runs; ++i)
     {
-        std::cerr << "Usage: ./main path/to/mymodel.py\n";
-        return 1;
+        // Generate parameters and data.
+        Params truth;
+        truth.from_prior(rng);
+        Data data(truth, rng);
+        truth.print(fout); fout << std::endl;
+
+        // Do NOT tell DNest4 about the
+        // true parameters yet.
+        MyModel<Params, Data>::set_data(&data);
+        MyModel<Params, Data>::set_truth(nullptr);
+
+        // Do standard DNest4 run
+        DNest4::start<PostEnt2026::MyModel<Params, Data>>(argc, argv);
+        std::system("python3 _showresults.py");
+
+        // Tell DNest4 about the true parameters.
+        MyModel<Params, Data>::set_truth(&truth);
+
+        // Do modified DNest4 run with kernel
+        DNest4::start<PostEnt2026::MyModel<Params, Data>>(argc, argv);
+        std::system("python3 _showresults2.py");
     }
-
-    std::string model_path = argv[1];
-
-    PostEnt2021::set_model_path(model_path);
-
-    Tools::RNG rng;
-    launch<PythonModelParams, PythonModelData>(rng);
+    fout.close();
 
     return 0;
 }
+
