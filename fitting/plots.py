@@ -19,11 +19,11 @@ def cornerplot(posterior_sample):
     log10_jitter = posterior_sample[:,3]
     log10_tau = (log10_sigma - log10_eta + 0.5*np.log10(2))*2
 
-    posterior_sample = np.column_stack((mu, log10_eta, log10_tau, log10_jitter))
+    posterior_sample = np.column_stack((mu, log10_tau, log10_eta, log10_jitter))
 
     figure = corner.corner(posterior_sample,
-        labels=["$\\mu$", "$\\log_{10}(\\eta)$",
-                "$\\log_{10}(\\tau)$",
+        labels=["$\\mu$", "$\\log_{10}(\\tau)$",
+                "$\\log_{10}(\\eta)$",
                 "$\\log_{10}({\\rm jitter})$"],
                 plot_contours=False,
                 plot_density=False, fontsize=14,
@@ -37,7 +37,7 @@ def cornerplot(posterior_sample):
 
 
 cornerplot(np.loadtxt("results/posterior_sample_informative_free.txt"))
-plt.savefig("cornerplot.pdf", bbox_inches="tight")
+plt.savefig("cornerplot_informative.pdf", bbox_inches="tight")
 plt.show()
 
 
