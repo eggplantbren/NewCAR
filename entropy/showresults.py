@@ -20,5 +20,16 @@ truths = np.loadtxt("truths.txt")
 if truths.ndim == 1:
     truths = truths[:, None]
 truths = truths[0:len(diffs),:]
-plt.plot(truths[:,0], diffs, ".", alpha=0.3)
+
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.size": 14,
+})
+
+log10_tau = np.log(2.0) + 2.0*(truths[:,1] - truths[:,2])
+plt.plot(log10_tau, diffs, ".", alpha=0.3)
+plt.xlabel("$\\log_{10}(\\tau)$")
+plt.ylabel("Estimated $\\log p(\\log_{10}(\\eta) \\,|\\, {\\rm data})|_{\\rm truth}$")
+plt.axvline(np.log10(1.0), linewidth=2, linestyle="--", alpha=0.2, color="k")
+plt.axvline(np.log10(20.0*365), linewidth=2, linestyle="--", alpha=0.2, color="k")
 plt.show()
